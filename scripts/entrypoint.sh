@@ -192,6 +192,7 @@ smtp_tls_loglevel = 1
 EOF
   fi
 
+if [ "$POSTFIX_SSL_IN_SECURITY_LEVEL" != "none" ]; then
   if [ -z ${POSTFIX_SSL_IN_CERT+x} ]; then
     POSTFIX_SSL_IN_CERT="/etc/postfix/tls/bundle.crt"
   fi
@@ -199,6 +200,7 @@ EOF
   if [ -z ${POSTFIX_SSL_IN_KEY+x} ]; then
     POSTFIX_SSL_IN_KEY="/etc/postfix/tls/cert.key"
   fi
+fi
 
   if [ -z ${POSTFIX_SSL_IN_SECURITY_LEVEL+x} ]; then
     POSTFIX_SSL_IN_SECURITY_LEVEL="may"
@@ -266,8 +268,9 @@ EOF
     postconf -e "relay_domains=$POSTFIX_RELAY_DOMAINS"
   fi
 
-  if [ -d /etc/postfix/additional/opendkim ]; then
+  if [ -n "$DKIM_DOMAINS" ]; then
     echo ">> enabling DKIM"
+    mkdir -p /etc/postfix/additional/opendkim/keys;
     dkim-helper.sh
   fi
 

@@ -1,6 +1,7 @@
 #!/bin/bash
 
 echo ">> DKIM - Domains ($DKIM_DOMAINS)"
+echo ">> DKIM - Selector ($DKIM_SELECTOR)"
 
 echo ">> DKIM - updating opendkim config"
 
@@ -41,14 +42,14 @@ for domain in $(echo $DKIM_DOMAINS); do
   fi
   cd $keydir
 
-  if [ ! -f default.private ]; then
+  if [ ! -f $DKIM_SELECTOR.private ]; then
     echo ">> generate key for domain $domain"
 
     opendkim-genkey -r -d $domain
-    chown opendkim:opendkim default.private
+    chown opendkim:opendkim $DKIM_SELECTOR.private
 
-    echo "default._domainkey.$domain $domain:default:$keydir/default.private" >> /etc/postfix/additional/opendkim/KeyTable
-    echo "$domain default._domainkey.$domain" >> /etc/postfix/additional/opendkim/SigningTable
+    echo "$DKIM_SELECTOR._domainkey.$domain $domain:$DKIM_SELECTOR:$keydir/$DKIM_SELECTOR.private" >> /etc/postfix/additional/opendkim/KeyTable
+    echo "$domain $DKIM_SELECTOR._domainkey.$domain" >> /etc/postfix/additional/opendkim/SigningTable
     echo ">> key for domain $domain created"
   else
     echo ">> key for domain $domain exists already"
@@ -58,7 +59,7 @@ for domain in $(echo $DKIM_DOMAINS); do
   chown -R opendkim:opendkim /etc/postfix/additional/opendkim/keys
 
   echo "---------------------------------------------------------------------"
-  cat $keydir/default.txt
+  cat $keydir/$DKIM_SELECTOR.txt
   echo "---------------------------------------------------------------------"
 
 done

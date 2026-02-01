@@ -1,7 +1,7 @@
 FROM debian:bullseye
 
 ENV PATH="/container/scripts:${PATH}"
-ENV DEBIAN_FRONTEND noninteractive
+ENV DEBIAN_FRONTEND=noninteractive
 
 RUN apt-get -q -y update \
  && apt-get -q -y install --no-install-recommends runit \

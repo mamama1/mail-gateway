@@ -1,17 +1,6 @@
-# Docker Mail Gateway Postfix - (ghcr.io/servercontainers/mail-gateway) [x86 + arm]
-_maintained by ServerContainers_
-
-## IMPORTANT!
-
-In March 2023 - Docker informed me that they are going to remove my 
-organizations `servercontainers` and `desktopcontainers` unless 
-I'm upgrading to a pro plan.
-
-I'm not going to do that. It's more of a professionally done hobby then a
-professional job I'm earning money with.
-
-In order to avoid bad actors taking over my org. names and publishing potenial
-backdoored containers, I'd recommend to switch over to my new github registry: `ghcr.io/servercontainers`.
+# Docker Mail Gateway Postfix - forked from (ghcr.io/servercontainers/mail-gateway) [x86 + arm]
+_maintained by mamama1_
+forked from servercontainers
 
 ## Build & Versions
 
