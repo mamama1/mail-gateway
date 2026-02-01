@@ -45,7 +45,7 @@ for domain in $(echo $DKIM_DOMAINS); do
   if [ ! -f $DKIM_SELECTOR.private ]; then
     echo ">> generate key for domain $domain"
 
-    opendkim-genkey -r -d $domain
+    opendkim-genkey -s $DKIM_SELECTOR -d $domain -D \"/etc/postfix/additional/opendkim/keys/$domain\";
     chown opendkim:opendkim $DKIM_SELECTOR.private
 
     echo "$DKIM_SELECTOR._domainkey.$domain $domain:$DKIM_SELECTOR:$keydir/$DKIM_SELECTOR.private" >> /etc/postfix/additional/opendkim/KeyTable

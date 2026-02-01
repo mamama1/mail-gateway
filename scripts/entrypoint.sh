@@ -3,13 +3,14 @@
 cat <<EOF
 ################################################################################
 
-Welcome to the ghcr.io/servercontainers/mail-gateway
+Welcome to the ghcr.io/mamama1/mail-gateway
+forked from ghcr.io/servercontainers/mail-gateway
 
 ################################################################################
 
 You'll find this container sourcecode here:
 
-    https://github.com/ServerContainers/mail-gateway
+    https://github.com/mamama1/mail-gateway
 
 The container repository will be updated regularly.
 
