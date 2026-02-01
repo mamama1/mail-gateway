@@ -1,5 +1,5 @@
 FROM debian:bullseye
-LABEL org.opencontainers.image.source https://github.com/mamama1/mail-gateway
+LABEL org.opencontainers.image.source=https://github.com/mamama1/mail-gateway
 ENV PATH="/container/scripts:${PATH}"
 ENV DEBIAN_FRONTEND=noninteractive
 
