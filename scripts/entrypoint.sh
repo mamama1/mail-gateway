@@ -327,6 +327,15 @@ fi
 rm -rf /tmp/tls 2> /dev/null
 cp -a /etc/postfix/tls /tmp/tls
 
+# Inside entrypoint.sh
+echo ">> System - Fixing Postfix spool permissions for Trixie"
+chown root:root /var/spool/postfix
+chown postfix:root /var/spool/postfix/active /var/spool/postfix/bounce /var/spool/postfix/corrupt /var/spool/postfix/defer /var/spool/postfix/deferred /var/spool/postfix/flush /var/spool/postfix/hold /var/spool/postfix/incoming /var/spool/postfix/private /var/spool/postfix/saved /var/spool/postfix/trace
+chown postfix:postdrop /var/spool/postfix/public /var/spool/postfix/maildrop
+
+# Let Postfix do the heavy lifting for set-gid bits
+postfix set-permissions 2>/dev/null || true
+
 ##
 # CMD
 ##

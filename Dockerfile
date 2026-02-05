@@ -1,7 +1,16 @@
-FROM debian:bullseye
+FROM debian:trixie
 LABEL org.opencontainers.image.source=https://github.com/mamama1/mail-gateway
 ENV PATH="/container/scripts:${PATH}"
 ENV DEBIAN_FRONTEND=noninteractive
+
+# 1. PRE-CREATE USERS WITH SPECIFIC IDs
+# This ensures consistency with old Bullseye volumes (UID 101) 
+# and Trixie requirements (GID 103 for postdrop).
+RUN groupadd -g 103 postdrop && \
+    groupadd -g 101 postfix && \
+    useradd -u 101 -g postfix -G postdrop -s /bin/false -d /var/spool/postfix postfix && \
+    groupadd -g 102 opendkim && \
+    useradd -u 102 -g opendkim -s /bin/false -d /var/lib/opendkim opendkim
 
 RUN apt-get -q -y update \
  && apt-get -q -y install --no-install-recommends runit \
@@ -39,6 +48,11 @@ RUN timeout 500 freshclam || true
 #
 
 RUN su - amavis -s /bin/bash -c 'razor-admin -create; razor-admin -register; pyzor discover'
+
+# 2. ADD A PERMISSION FIX TO THE BUILD
+RUN mkdir -p /etc/postfix/additional/opendkim/keys && \
+    chown -R root:root /etc/postfix && \
+    chown -R postfix:postdrop /var/spool/postfix
 
 #
 # Relay Configuration
