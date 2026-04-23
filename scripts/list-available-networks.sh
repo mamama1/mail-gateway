@@ -28,10 +28,10 @@ function getCidrSuffixFromNetmask {
 
 
 IFS=$'\n'       # make newlines the only separator
-for j in $(ifconfig | grep inet | tr ' ' '\n' | grep 'Mask\|add' | tr '\n' ' ' | sed 's/addr/\naddr/g' | grep . | sed 's/[^0-9. ]//g')
+for j in $(ifconfig | grep "inet " | sed 's/[^0-9. ]//g' | tr -s " ")
 do
-  ADDR=$(echo "$j" | cut -d' ' -f1)
-  MASK=$(echo "$j" | cut -d' ' -f2)
+  ADDR=$(echo "$j" | cut -d' ' -f2)
+  MASK=$(echo "$j" | cut -d' ' -f3)
 
   NETWORK=$(getNetworkFromAddressAndNetmask "$ADDR" "$MASK")
   CIDR=$(getCidrSuffixFromNetmask "$MASK")
