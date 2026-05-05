@@ -249,6 +249,11 @@ EOF
     postconf -e smtpd_recipient_restrictions=permit_mynetworks,permit_tls_all_clientcerts,reject_unauth_destination
   fi
 
+  if [ ! -z ${POSTFIX_MESSAGE_SIZE_LIMIT+x} ]; then
+    echo ">> POSTFIX set message_size_limit = $POSTFIX_MESSAGE_SIZE_LIMIT"
+    postconf -e "message_size_limit=$POSTFIX_MESSAGE_SIZE_LIMIT"
+  fi
+
   if [ ! -z ${POSTFIX_QUEUE_LIFETIME_BOUNCE+x} ]; then
     echo ">> POSTFIX set bounce_queue_lifetime = $POSTFIX_QUEUE_LIFETIME_BOUNCE"
     postconf -e "bounce_queue_lifetime=$POSTFIX_QUEUE_LIFETIME_BOUNCE"

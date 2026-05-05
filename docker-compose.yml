@@ -9,6 +9,7 @@ services:
     environment:
       MAIL_FQDN: mail-security-scanner-gateway
       RELAYHOST: mail02.internal.tld:25
+      #POSTFIX_MESSAGE_SIZE_LIMIT: 10240000  # bytes, default is 10485760 (~10MB)
     volumes:
       - ./tls:/etc/postfix/tls:ro
       - ./additional:/etc/postfix/additional
